@@ -1,6 +1,7 @@
 package org.example;
 
 public class Movie {
+
   public enum Type {
     REGULAR, NEW_RELEASE, CHILDREN, UNKNOWN;
   }
@@ -8,19 +9,18 @@ public class Movie {
   private final String title;
   Price price;
 
-  public Movie(
-          String title, Movie.Type priceCode) {
+  public Movie(String title, Movie.Type movieType) {
     this.title = title;
-    setPriceCode(priceCode);
+    setPriceCode(movieType);
   }
 
   public String getTitle() {
     return title;
   }
 
-  private void setPriceCode(
-          Movie.Type priceCode) {
-    switch (priceCode) {
+  private void setPriceCode(Movie.Type movieType) {
+
+    switch (movieType) {
       case CHILDREN:
         price = new ChildrensPrice();
         break;

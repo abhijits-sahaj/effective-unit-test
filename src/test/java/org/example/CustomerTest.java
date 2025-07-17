@@ -35,31 +35,95 @@ public class CustomerTest {
   }
 
   @Test
-  public void statement() {
-    for (Customer customer : customers) {
-      assertEquals(
-              expStatement(
-                      "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
-                      customer,
-                      rentalInfo("\t", "", customer.getRentals())),
-              customer.statement()
-      );
-    }
+  void davidStatement() {
+    assertEquals(
+            expStatement(
+                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
+                    david,
+                    rentalInfo("\t", "", david.getRentals())),
+            david.statement()
+    );
   }
 
   @Test
-  public void htmlStatement() {
-    for (Customer customer : customers) {
-      assertEquals(
-              expStatement(
-                      "<h1>Rental record for <em>%s</em></h1>\n%s" +
-                              "<p>Amount owed is <em>%s</em></p>\n" +
-                              "<p>You earned <em>%s frequent renter points</em></p>",
-                      customer,
-                      rentalInfo("<p>", "</p>", customer.getRentals())),
-              customer.htmlStatement()
-      );
-    }
+  void johnStatement() {
+    assertEquals(
+            expStatement(
+                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
+                    john,
+                    rentalInfo("\t", "", john.getRentals())),
+            john.statement()
+    );
+  }
+
+  @Test
+  void patStatement() {
+    assertEquals(
+            expStatement(
+                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
+                    pat,
+                    rentalInfo("\t", "", pat.getRentals())),
+            pat.statement()
+    );
+  }
+
+  @Test
+  void steveStatement() {
+    assertEquals(
+            expStatement(
+                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
+                    steve,
+                    rentalInfo("\t", "", steve.getRentals())),
+            steve.statement()
+    );
+  }
+
+  @Test
+  public void davidHtmlStatement() {
+    assertEquals(
+            expStatement(
+                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
+                            "<p>Amount owed is <em>%s</em></p>\n" +
+                            "<p>You earned <em>%s frequent renter points</em></p>",
+                    david,
+                    rentalInfo("<p>", "</p>\n", david.getRentals())),
+            david.htmlStatement());
+  }
+
+  @Test
+  public void patHtmlStatement() {
+    assertEquals(
+            expStatement(
+                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
+                            "<p>Amount owed is <em>%s</em></p>\n" +
+                            "<p>You earned <em>%s frequent renter points</em></p>",
+                    pat,
+                    rentalInfo("<p>", "</p>\n", pat.getRentals())),
+            pat.htmlStatement());
+  }
+
+  @Test
+  public void steveHtmlStatement() {
+    assertEquals(
+            expStatement(
+                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
+                            "<p>Amount owed is <em>%s</em></p>\n" +
+                            "<p>You earned <em>%s frequent renter points</em></p>",
+                    steve,
+                    rentalInfo("<p>", "</p>\n", steve.getRentals())),
+            steve.htmlStatement());
+  }
+
+  @Test
+  public void johnHtmlStatement() {
+    assertEquals(
+            expStatement(
+                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
+                            "<p>Amount owed is <em>%s</em></p>\n" +
+                            "<p>You earned <em>%s frequent renter points</em></p>",
+                    john,
+                    rentalInfo("<p>", "</p>\n", john.getRentals())),
+            john.htmlStatement());
   }
 
   @Test
