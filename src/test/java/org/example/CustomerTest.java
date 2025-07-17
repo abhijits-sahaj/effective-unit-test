@@ -3,8 +3,6 @@ package org.example;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -35,7 +33,7 @@ public class CustomerTest {
   }
 
   @Test
-  void davidStatement() {
+  void shouldReturnRentalStatementOfACustomerGivenTheyHaventRentedAnythingYet() {
     assertEquals("Rental record for David\n" +
             "Amount owed is 0.0\n" +
             "You earned 0 frequent renter points", david.statement()
@@ -52,7 +50,7 @@ public class CustomerTest {
   }
 
   @Test
-  public void patStatement() {
+  public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachType() {
     assertEquals(
             "Rental record for Pat\n" +
                     "\tGodfather 4 9.0\n" +
@@ -64,7 +62,7 @@ public class CustomerTest {
   }
 
   @Test
-  public void steveStatement() {
+  public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovie() {
     assertEquals("Rental record for Steve\n" +
                     "\tGodfather 4 9.0\n" +
                     "\tScarface 3.5\n" +
@@ -74,14 +72,23 @@ public class CustomerTest {
   }
 
   @Test
-  public void davidHtmlStatement() {
+  public void shouldReturnHTLMLRentalStatementOfACustomerGivenTheyHaventRentedAnythingYet() {
     assertEquals("<h1>Rental record for <em>David</em></h1>\n" +
             "<p>Amount owed is <em>0.0</em></p>\n" +
             "<p>You earned <em>0 frequent renter points</em></p>", david.htmlStatement());
   }
 
   @Test
-  public void patHtmlStatement() {
+  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOnlyOneMovie() {
+    assertEquals("<h1>Rental record for <em>John</em></h1>\n" +
+                    "<p>Godfather 4 9.0</p>\n" +
+                    "<p>Amount owed is <em>9.0</em></p>\n" +
+                    "<p>You earned <em>2 frequent renter points</em></p>",
+            john.htmlStatement());
+  }
+
+  @Test
+  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachType() {
     assertEquals("<h1>Rental record for <em>Pat</em></h1>\n" +
                     "<p>Godfather 4 9.0</p>\n" +
                     "<p>Scarface 3.5</p>\n" +
@@ -92,7 +99,7 @@ public class CustomerTest {
   }
 
   @Test
-  public void steveHtmlStatement() {
+  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovie() {
     assertEquals("<h1>Rental record for <em>Steve</em></h1>\n" +
                     "<p>Godfather 4 9.0</p>\n" +
                     "<p>Scarface 3.5</p>\n" +
@@ -101,14 +108,6 @@ public class CustomerTest {
             steve.htmlStatement());
   }
 
-  @Test
-  public void johnHtmlStatement() {
-    assertEquals("<h1>Rental record for <em>John</em></h1>\n" +
-                    "<p>Godfather 4 9.0</p>\n" +
-                    "<p>Amount owed is <em>9.0</em></p>\n" +
-                    "<p>You earned <em>2 frequent renter points</em></p>",
-            john.htmlStatement());
-  }
 
   @Test
   public void invalidTitle() {
