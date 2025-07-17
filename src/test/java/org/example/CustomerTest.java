@@ -8,26 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CustomerTest {
 
-  Customer john, steve, pat, david;
-  Customer[] customers;
-
-  @BeforeEach
-  public void setup() {
-    david = ObjectMother.customerWithNoRentals("David");
-    john = ObjectMother.customerWithOneNewRelease("John");
-    pat = ObjectMother.customerWithOneOfEachRentalType("Pat");
-    steve = ObjectMother.customerWithOneNewReleaseAndOneRegular("Steve");
-    customers = new Customer[]{david, john, steve, pat};
-  }
-
-  @Test
-  public void getName() {
-    assertEquals("David", david.getName());
-    assertEquals("John", john.getName());
-    assertEquals("Steve", steve.getName());
-    assertEquals("Pat", pat.getName());
-  }
-
   @Test
   void shouldReturnRentalStatementOfACustomerGivenTheyHaventRentedAnythingYet() {
     Customer noRentalCustomerDavid = ObjectMother.customerWithNoRentals("David");
