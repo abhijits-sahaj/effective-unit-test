@@ -1,20 +1,26 @@
 package org.example;
 
 public class Rental {
-
-  private int daysRented;
-  private Movie movie;
-
-  public Rental(Movie movie, int daysRented){
+  Movie movie;
+  private final int daysRented;
+  public Rental(Movie movie, int daysRented) {
     this.movie = movie;
     this.daysRented = daysRented;
   }
-
+  public Movie getMovie() {
+    return movie;
+  }
   public int getDaysRented() {
     return daysRented;
   }
-
-  public Movie getMovie() {
-    return movie;
+  public double getCharge() {
+    return movie.getCharge(daysRented);
+  }
+  public int getPoints() {
+    return movie.getPoints(daysRented);
+  }
+  public String getLineItem() {
+    return
+            movie.getTitle() + " " + getCharge();
   }
 }

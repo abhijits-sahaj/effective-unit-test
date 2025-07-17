@@ -1,28 +1,46 @@
 package org.example;
 
 public class Movie {
-  public static final int CHILDRENS = 2;
-  public static final int REGULAR = 0;
-  public static final int NEW_RELEASE = 1;
+  public enum Type {
+    REGULAR, NEW_RELEASE, CHILDREN, UNKNOWN;
+  }
 
-  private String title;
-  private int priceCode;
+  private final String title;
+  Price price;
 
-  public Movie(String title, int priceCode) {
+  public Movie(
+          String title, Movie.Type priceCode) {
     this.title = title;
-    this.priceCode = priceCode;
-  }
-
-  public int getPriceCode() {
-    return priceCode;
-  }
-
-  public void setPriceCode(int arg) {
-    priceCode = arg;
+    setPriceCode(priceCode);
   }
 
   public String getTitle() {
     return title;
   }
 
+  private void setPriceCode(
+          Movie.Type priceCode) {
+    switch (priceCode) {
+      case CHILDREN:
+        price = new ChildrensPrice();
+        break;
+      case NEW_RELEASE:
+        price = new NewReleasePrice();
+        break;
+      case REGULAR:
+        price = new RegularPrice();
+        break;
+      default:
+        throw new IllegalArgumentException(
+                "invalid price code");
+    }
+  }
+
+  public double getCharge(int daysRented) {
+    return price.getCharge(daysRented);
+  }
+
+  public int getPoints(int daysRented) {
+    return price.getPoints(daysRented);
+  }
 }
