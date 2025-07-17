@@ -36,93 +36,77 @@ public class CustomerTest {
 
   @Test
   void davidStatement() {
-    assertEquals(
-            expStatement(
-                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
-                    david,
-                    rentalInfo("\t", "", david.getRentals())),
-            david.statement()
+    assertEquals("Rental record for David\n" +
+            "Amount owed is 0.0\n" +
+            "You earned 0 frequent renter points", david.statement()
     );
   }
 
   @Test
-  void johnStatement() {
-    assertEquals(
-            expStatement(
-                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
-                    john,
-                    rentalInfo("\t", "", john.getRentals())),
-            john.statement()
-    );
+  public void johnStatement() {
+    assertEquals("Rental record for John\n" +
+                    "\tGodfather 4 9.0\n" +
+                    "Amount owed is 9.0\n" +
+                    "You earned 2 frequent renter points",
+            john.statement());
   }
 
   @Test
-  void patStatement() {
+  public void patStatement() {
     assertEquals(
-            expStatement(
-                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
-                    pat,
-                    rentalInfo("\t", "", pat.getRentals())),
-            pat.statement()
-    );
+            "Rental record for Pat\n" +
+                    "\tGodfather 4 9.0\n" +
+                    "\tScarface 3.5\n" +
+                    "\tLion King 1.5\n" +
+                    "Amount owed is 14.0\n" +
+                    "You earned 4 frequent renter points",
+            pat.statement());
   }
 
   @Test
-  void steveStatement() {
-    assertEquals(
-            expStatement(
-                    "Rental record for %s\n%sAmount owed is %s\nYou earned %s frequent renter points",
-                    steve,
-                    rentalInfo("\t", "", steve.getRentals())),
-            steve.statement()
-    );
+  public void steveStatement() {
+    assertEquals("Rental record for Steve\n" +
+                    "\tGodfather 4 9.0\n" +
+                    "\tScarface 3.5\n" +
+                    "Amount owed is 12.5\n" +
+                    "You earned 3 frequent renter points",
+            steve.statement());
   }
 
   @Test
   public void davidHtmlStatement() {
-    assertEquals(
-            expStatement(
-                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
-                            "<p>Amount owed is <em>%s</em></p>\n" +
-                            "<p>You earned <em>%s frequent renter points</em></p>",
-                    david,
-                    rentalInfo("<p>", "</p>", david.getRentals())),
-            david.htmlStatement());
+    assertEquals("<h1>Rental record for <em>David</em></h1>\n" +
+            "<p>Amount owed is <em>0.0</em></p>\n" +
+            "<p>You earned <em>0 frequent renter points</em></p>", david.htmlStatement());
   }
 
   @Test
   public void patHtmlStatement() {
-    assertEquals(
-            expStatement(
-                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
-                            "<p>Amount owed is <em>%s</em></p>\n" +
-                            "<p>You earned <em>%s frequent renter points</em></p>",
-                    pat,
-                    rentalInfo("<p>", "</p>", pat.getRentals())),
+    assertEquals("<h1>Rental record for <em>Pat</em></h1>\n" +
+                    "<p>Godfather 4 9.0</p>\n" +
+                    "<p>Scarface 3.5</p>\n" +
+                    "<p>Lion King 1.5</p>\n" +
+                    "<p>Amount owed is <em>14.0</em></p>\n" +
+                    "<p>You earned <em>4 frequent renter points</em></p>",
             pat.htmlStatement());
   }
 
   @Test
   public void steveHtmlStatement() {
-    assertEquals(
-            expStatement(
-                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
-                            "<p>Amount owed is <em>%s</em></p>\n" +
-                            "<p>You earned <em>%s frequent renter points</em></p>",
-                    steve,
-                    rentalInfo("<p>", "</p>", steve.getRentals())),
+    assertEquals("<h1>Rental record for <em>Steve</em></h1>\n" +
+                    "<p>Godfather 4 9.0</p>\n" +
+                    "<p>Scarface 3.5</p>\n" +
+                    "<p>Amount owed is <em>12.5</em></p>\n" +
+                    "<p>You earned <em>3 frequent renter points</em></p>",
             steve.htmlStatement());
   }
 
   @Test
   public void johnHtmlStatement() {
-    assertEquals(
-            expStatement(
-                    "<h1>Rental record for <em>%s</em></h1>\n%s" +
-                            "<p>Amount owed is <em>%s</em></p>\n" +
-                            "<p>You earned <em>%s frequent renter points</em></p>",
-                    john,
-                    rentalInfo("<p>", "</p>", john.getRentals())),
+    assertEquals("<h1>Rental record for <em>John</em></h1>\n" +
+                    "<p>Godfather 4 9.0</p>\n" +
+                    "<p>Amount owed is <em>9.0</em></p>\n" +
+                    "<p>You earned <em>2 frequent renter points</em></p>",
             john.htmlStatement());
   }
 
@@ -134,27 +118,5 @@ public class CustomerTest {
                       new Movie("Crazy, Stupid, Love.", Movie.Type.UNKNOWN),
                       4));
     });
-  }
-
-  public static String rentalInfo(String startsWith, String endsWith, List<Rental> rentals) {
-    StringBuilder result = new StringBuilder();
-    for (Rental rental : rentals) {
-      result.append(String.format(
-              "%s%s %s%s\n",
-              startsWith,
-              rental.getMovie().getTitle(),
-              rental.getCharge(),
-              endsWith));
-    }
-    return result.toString();
-  }
-
-  public static String expStatement(String formatStr, Customer customer, String rentalInfo) {
-    return String.format(
-            formatStr,
-            customer.getName(),
-            rentalInfo,
-            customer.getTotalCharge(),
-            customer.getTotalPoints());
   }
 }
