@@ -86,7 +86,7 @@ public class CustomerTest {
                             "<p>Amount owed is <em>%s</em></p>\n" +
                             "<p>You earned <em>%s frequent renter points</em></p>",
                     david,
-                    rentalInfo("<p>", "</p>\n", david.getRentals())),
+                    rentalInfo("<p>", "</p>", david.getRentals())),
             david.htmlStatement());
   }
 
@@ -98,7 +98,7 @@ public class CustomerTest {
                             "<p>Amount owed is <em>%s</em></p>\n" +
                             "<p>You earned <em>%s frequent renter points</em></p>",
                     pat,
-                    rentalInfo("<p>", "</p>\n", pat.getRentals())),
+                    rentalInfo("<p>", "</p>", pat.getRentals())),
             pat.htmlStatement());
   }
 
@@ -110,7 +110,7 @@ public class CustomerTest {
                             "<p>Amount owed is <em>%s</em></p>\n" +
                             "<p>You earned <em>%s frequent renter points</em></p>",
                     steve,
-                    rentalInfo("<p>", "</p>\n", steve.getRentals())),
+                    rentalInfo("<p>", "</p>", steve.getRentals())),
             steve.htmlStatement());
   }
 
@@ -122,7 +122,7 @@ public class CustomerTest {
                             "<p>Amount owed is <em>%s</em></p>\n" +
                             "<p>You earned <em>%s frequent renter points</em></p>",
                     john,
-                    rentalInfo("<p>", "</p>\n", john.getRentals())),
+                    rentalInfo("<p>", "</p>", john.getRentals())),
             john.htmlStatement());
   }
 
@@ -140,7 +140,7 @@ public class CustomerTest {
     StringBuilder result = new StringBuilder();
     for (Rental rental : rentals) {
       result.append(String.format(
-              "%s%s\t%s%s\n",
+              "%s%s %s%s\n",
               startsWith,
               rental.getMovie().getTitle(),
               rental.getCharge(),
