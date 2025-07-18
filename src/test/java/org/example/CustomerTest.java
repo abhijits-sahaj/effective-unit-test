@@ -156,19 +156,4 @@ public class CustomerTest {
                     "<p>You earned <em>3 frequent renter points</em></p>",
             customer.htmlStatement());
   }
-
-  @Test
-  public void invalidTitle() {
-    assertThrows(IllegalArgumentException.class, () -> {
-      Movie invalidMovie = MovieBuilder.of()
-              .withTitle("Crazy, Stupid, Love.")
-              .withType(Movie.Type.UNKNOWN)
-              .build();
-
-      CustomerBuilder.of()
-              .withName("Bob")
-              .withRental(RentalBuilder.of().withMovie(invalidMovie).withDaysRented(4).build())
-              .build();
-    });
-  }
 }

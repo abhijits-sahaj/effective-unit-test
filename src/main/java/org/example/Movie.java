@@ -31,8 +31,7 @@ public class Movie {
         price = new RegularPrice();
         break;
       default:
-        throw new IllegalArgumentException(
-                "invalid price code");
+        throw new IllegalArgumentException("invalid price code");
     }
   }
 
