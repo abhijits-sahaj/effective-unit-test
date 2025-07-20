@@ -1,158 +1,93 @@
 package org.example;
 
-import org.example.fixture.CustomerBuilder;
-import org.example.fixture.MovieBuilder;
-import org.example.fixture.RentalBuilder;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
-public class CustomerTest {
+class CustomerTest {
 
-  @Test
-  void shouldReturnRentalStatementOfACustomerGivenTheyHaventRentedAnythingYet() {
-    Customer customer = CustomerBuilder.of()
-            .withName("David")
-            .build();
+  @Nested
+  class Rentals {
 
-    assertEquals("Rental record for David\n" +
-                    "Amount owed is 0.0\n" +
-                    "You earned 0 frequent renter points",
-            customer.statement());
+    @Test
+    void shouldAddARentalToACustomer() {
+      Customer customer = new Customer("John");
+      Rental mockRental = mock(Rental.class);
+
+      customer.addRental(mockRental);
+
+      assertTrue(customer.getRentals().contains(mockRental));
+    }
   }
 
-  @Test
-  void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedANewlyReleaseMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of()
-            .withTitle("Godfather 4")
-            .withType(MovieType.NEW_RELEASE)
-            .build();
+  @Nested
+  class Charges {
 
-    Customer customer = CustomerBuilder.of()
-            .withName("John")
-            .withRental(RentalBuilder.of()
-                    .withMovie(godfather4)
-                    .withDaysRented(3)
-                    .build())
-            .build();
+    @Test
+    void shouldReturnTheTotalChargesTheCustomerHasToPayGivenTheyHaveRentedAMovie() {
+      Rental r1 = mock(Rental.class);
+      Rental r2 = mock(Rental.class);
+      when(r1.getCharge()).thenReturn(10.0);
+      when(r2.getCharge()).thenReturn(5.5);
 
-    assertEquals("Rental record for John\n" +
-                    "\tGodfather 4 9.0\n" +
-                    "Amount owed is 9.0\n" +
-                    "You earned 2 frequent renter points",
-            customer.statement());
+      Customer customer = new Customer("John");
+      customer.addRental(r1);
+      customer.addRental(r2);
+
+      assertEquals(15.5, customer.getTotalCharge());
+    }
   }
 
-  @Test
-  public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachTypeFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
-    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(MovieType.CHILDREN).build();
+  @Nested
+  class Points {
 
-    Customer customer = CustomerBuilder.of()
-            .withName("Pat")
-            .withRental(RentalBuilder.of().withMovie(godfather4).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(scarface).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(lionKing).withDaysRented(3).build())
-            .build();
+    @Test
+    void shouldReturnTheTotalPointsEarnedByACustomerGivenTheyHaveRentedAMovie() {
+      Rental r1 = mock(Rental.class);
+      Rental r2 = mock(Rental.class);
+      when(r1.getPoints()).thenReturn(1);
+      when(r2.getPoints()).thenReturn(2);
 
-    assertEquals("Rental record for Pat\n" +
-                    "\tGodfather 4 9.0\n" +
-                    "\tScarface 3.5\n" +
-                    "\tLion King 1.5\n" +
-                    "Amount owed is 14.0\n" +
-                    "You earned 4 frequent renter points",
-            customer.statement());
+      Customer customer = new Customer("John");
+      customer.addRental(r1);
+      customer.addRental(r2);
+
+      assertEquals(3, customer.getTotalPoints());
+    }
   }
 
-  @Test
-  public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
+  @Nested
+  class Statements {
 
-    Customer customer = CustomerBuilder.of()
-            .withName("Steve")
-            .withRental(RentalBuilder.of().withMovie(godfather4).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(scarface).withDaysRented(3).build())
-            .build();
+    @Test
+    void shouldGenerateAPlainTextStatementGivenCustomerHasRentedAMovie() {
+      Customer customer = new Customer("Neo");
+      customer.addRental(mock(Rental.class));
+      customer.addRental(mock(Rental.class));
 
-    assertEquals("Rental record for Steve\n" +
-                    "\tGodfather 4 9.0\n" +
-                    "\tScarface 3.5\n" +
-                    "Amount owed is 12.5\n" +
-                    "You earned 3 frequent renter points",
-            customer.statement());
-  }
+      assertEquals("Rental record for Neo\n" +
+              "\tnull\n" +
+              "\tnull\n" +
+              "Amount owed is 0.0\n" +
+              "You earned 0 frequent renter points", customer.statement());
+    }
 
-  @Test
-  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaventRentedAnythingYet() {
-    Customer customer = CustomerBuilder.of()
-            .withName("David")
-            .build();
+    @Test
+    void shouldGenerateAHTMLCompatibleStatementGivenCustomerHasRentedAMovie() {
 
-    assertEquals("<h1>Rental record for <em>David</em></h1>\n" +
-                    "<p>Amount owed is <em>0.0</em></p>\n" +
-                    "<p>You earned <em>0 frequent renter points</em></p>",
-            customer.htmlStatement());
-  }
+      Customer customer = new Customer("Neo");
+      customer.addRental(mock(Rental.class));
+      customer.addRental(mock(Rental.class));
 
-  @Test
-  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOnlyOneMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of()
-            .withTitle("Godfather 4")
-            .withType(MovieType.NEW_RELEASE)
-            .build();
-
-    Customer customer = CustomerBuilder.of()
-            .withName("John")
-            .withRental(RentalBuilder.of().withMovie(godfather4).withDaysRented(3).build())
-            .build();
-
-    assertEquals("<h1>Rental record for <em>John</em></h1>\n" +
-                    "<p>Godfather 4 9.0</p>\n" +
-                    "<p>Amount owed is <em>9.0</em></p>\n" +
-                    "<p>You earned <em>2 frequent renter points</em></p>",
-            customer.htmlStatement());
-  }
-
-  @Test
-  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachTypeFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
-    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(MovieType.CHILDREN).build();
-
-    Customer customer = CustomerBuilder.of()
-            .withName("Pat")
-            .withRental(RentalBuilder.of().withMovie(godfather4).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(scarface).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(lionKing).withDaysRented(3).build())
-            .build();
-
-    assertEquals("<h1>Rental record for <em>Pat</em></h1>\n" +
-                    "<p>Godfather 4 9.0</p>\n" +
-                    "<p>Scarface 3.5</p>\n" +
-                    "<p>Lion King 1.5</p>\n" +
-                    "<p>Amount owed is <em>14.0</em></p>\n" +
-                    "<p>You earned <em>4 frequent renter points</em></p>",
-            customer.htmlStatement());
-  }
-
-  @Test
-  public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
-
-    Customer customer = CustomerBuilder.of()
-            .withName("Steve")
-            .withRental(RentalBuilder.of().withMovie(godfather4).withDaysRented(3).build())
-            .withRental(RentalBuilder.of().withMovie(scarface).withDaysRented(3).build())
-            .build();
-
-    assertEquals("<h1>Rental record for <em>Steve</em></h1>\n" +
-                    "<p>Godfather 4 9.0</p>\n" +
-                    "<p>Scarface 3.5</p>\n" +
-                    "<p>Amount owed is <em>12.5</em></p>\n" +
-                    "<p>You earned <em>3 frequent renter points</em></p>",
-            customer.htmlStatement());
+      assertEquals("<h1>Rental record for <em>Neo</em></h1>\n" +
+              "<p>null</p>\n" +
+              "<p>null</p>\n" +
+              "<p>Amount owed is <em>0.0</em></p>\n" +
+              "<p>You earned <em>0 frequent renter points</em></p>", customer.htmlStatement());
+    }
   }
 }
