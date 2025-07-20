@@ -6,7 +6,6 @@ import org.example.fixture.RentalBuilder;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class CustomerTest {
 
@@ -26,7 +25,7 @@ public class CustomerTest {
   void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedANewlyReleaseMovieFor3Days() {
     Movie godfather4 = MovieBuilder.of()
             .withTitle("Godfather 4")
-            .withType(Movie.Type.NEW_RELEASE)
+            .withType(MovieType.NEW_RELEASE)
             .build();
 
     Customer customer = CustomerBuilder.of()
@@ -46,9 +45,9 @@ public class CustomerTest {
 
   @Test
   public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachTypeFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(Movie.Type.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(Movie.Type.REGULAR).build();
-    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(Movie.Type.CHILDREN).build();
+    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
+    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
+    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(MovieType.CHILDREN).build();
 
     Customer customer = CustomerBuilder.of()
             .withName("Pat")
@@ -68,8 +67,8 @@ public class CustomerTest {
 
   @Test
   public void shouldReturnRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(Movie.Type.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(Movie.Type.REGULAR).build();
+    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
+    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
 
     Customer customer = CustomerBuilder.of()
             .withName("Steve")
@@ -101,7 +100,7 @@ public class CustomerTest {
   public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOnlyOneMovieFor3Days() {
     Movie godfather4 = MovieBuilder.of()
             .withTitle("Godfather 4")
-            .withType(Movie.Type.NEW_RELEASE)
+            .withType(MovieType.NEW_RELEASE)
             .build();
 
     Customer customer = CustomerBuilder.of()
@@ -118,9 +117,9 @@ public class CustomerTest {
 
   @Test
   public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneMovieOfEachTypeFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(Movie.Type.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(Movie.Type.REGULAR).build();
-    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(Movie.Type.CHILDREN).build();
+    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
+    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
+    Movie lionKing = MovieBuilder.of().withTitle("Lion King").withType(MovieType.CHILDREN).build();
 
     Customer customer = CustomerBuilder.of()
             .withName("Pat")
@@ -140,8 +139,8 @@ public class CustomerTest {
 
   @Test
   public void shouldReturnHTMLRentalStatementOfACustomerGivenTheyHaveRentedOneNewReleaseOneRegularMovieFor3Days() {
-    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(Movie.Type.NEW_RELEASE).build();
-    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(Movie.Type.REGULAR).build();
+    Movie godfather4 = MovieBuilder.of().withTitle("Godfather 4").withType(MovieType.NEW_RELEASE).build();
+    Movie scarface = MovieBuilder.of().withTitle("Scarface").withType(MovieType.REGULAR).build();
 
     Customer customer = CustomerBuilder.of()
             .withName("Steve")

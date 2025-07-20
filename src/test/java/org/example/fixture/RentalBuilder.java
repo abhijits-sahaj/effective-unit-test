@@ -1,11 +1,12 @@
 package org.example.fixture;
 
 import org.example.Movie;
+import org.example.MovieType;
 import org.example.Rental;
 
 public class RentalBuilder {
 
-  private Movie movie = new Movie("Default Movie", Movie.Type.REGULAR);
+  private Movie movie = new Movie("Default Movie", MovieType.REGULAR);
   private int daysRented = 1;
 
   public static RentalBuilder of() {
