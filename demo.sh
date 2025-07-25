@@ -16,9 +16,43 @@ COMMITS=(
   fa3ada0
 )
 
-for commit in "${COMMITS[@]}"
-do
-  git checkout "$commit"
-  echo "Now on commit $commit"
-  read -p "Press enter to continue..."
+current=0
+total=${#COMMITS[@]}
+
+while true; do
+  # Safety check: bounds
+  if (( current < 0 )); then
+    current=0
+  elif (( current >= total )); then
+    current=$((total - 1))
+  fi
+
+  commit="${COMMITS[$current]}"
+  echo "Cleaning local changes..."
+  git reset --hard > /dev/null
+  git clean -fd > /dev/null
+
+  echo "Checking out $commit..."
+  git checkout "$commit" > /dev/null
+
+  echo
+  echo "Now on commit [$current/$((total-1))]: $commit"
+  echo "[n]ext | [p]revious | [q]uit"
+  read -p "Choose: " choice
+
+  case "$choice" in
+    n|N)
+      ((current++))
+      ;;
+    p|P)
+      ((current--))
+      ;;
+    q|Q)
+      echo "Exiting."
+      break
+      ;;
+    *)
+      echo "Invalid option. Use n, p, or q."
+      ;;
+  esac
 done
